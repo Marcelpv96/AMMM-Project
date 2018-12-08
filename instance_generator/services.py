@@ -29,8 +29,8 @@ class Services:
 
     def get_overlaps(self, services):
         overlaps = []
-        for s1 in range(0, len(services)-1):
-            overlaps += [[1 if services[s2].time < services[s1].end else 0 for s2 in range(0, len(services)-1)]]
+        for s1 in range(0, len(services)):
+            overlaps += [[1 if services[s2].time < services[s1].end else 0 for s2 in range(0, len(services))]]
         return overlaps
 
     def get_starting_time(self):

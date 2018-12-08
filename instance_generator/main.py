@@ -4,9 +4,9 @@ from services import Services
 
 
 def get_bus_drivers_services():
-    b = Bus(10, 10, 10, [5,10], [1,10], [1,10])
-    d = Drivers(10, 10, [1,10])
-    s = Services(10, 10, [1,10], [1,10], [1,10], [1,10])
+    b = Bus(100, 100, 100, [50,100], [10,100], [10,100])
+    d = Drivers(100, 100, [10,100])
+    s = Services(100, 100, [10,100], [10,100], [10,100], [10,100])
     return b, d, s
 
 def to_string(buses, drivers, services):
