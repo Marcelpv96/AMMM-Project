@@ -16,8 +16,7 @@ class Bus:
         return result
 
     def to_string(self):
-        return """
-nBuses=%d;
+        return """nBuses=%d;
 max_busses=%d;
 cap_B=%d;
 euros_min_B=%s;
