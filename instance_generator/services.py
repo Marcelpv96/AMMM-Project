@@ -62,12 +62,12 @@ class Services:
 
     def to_string(self):
         return """
-nServices=%d
-S_starting_time=%s
-duration_s_min=%s
-duration_s_km=%s
-overlap_time=%s
-num_passangers=%s""" % ((len(self.services), self.get_starting_time(), self.get_duration_min(), self.get_duration_km(),
+nServices=%d;
+S_starting_time=%s;
+duration_s_min=%s;
+duration_s_km=%s;
+overlap_time=%s;
+num_passangers=%s;""" % ((len(self.services), self.get_starting_time(), self.get_duration_min(), self.get_duration_km(),
                         self.get_overlap_time(), self.get_num_passangers()))
 
 
