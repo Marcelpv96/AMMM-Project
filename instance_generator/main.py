@@ -4,7 +4,7 @@ from services import Services
 
 
 def get_bus_drivers_services():
-    b = Bus(10, 10, 10, 10, [1,10], [1,10])
+    b = Bus(10, 10, 10, [5,10], [1,10], [1,10])
     d = Drivers(10, 10, [1,10])
     s = Services(10, 10, [1,10], [1,10], [1,10], [1,10])
     return b, d, s
