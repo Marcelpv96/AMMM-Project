@@ -1,23 +1,25 @@
 import random
+from utils import *
+
+class One_driver:
+    def __init__(self, seed, max_seconds):
+        self.max_seconds = random.randint(max_seconds[0], max_seconds[1])
 
 
 class Drivers:
     def __init__(self, seed, num_drivers, max_seconds):
         random.seed(seed)
         self.num_drivers = num_drivers
-        self.max_seconds = self.get_max(max_seconds, num_drivers)
+        self.drivers = [One_driver(seed, max_seconds) for _ in range(0, num_drivers)]
 
-    def get_max(self, max_seconds, number):
-        max_D = [random.randint(max_seconds[0], max_seconds[1]) for _ in range(0, number)]
-        result = "[%s]" % " ".join(list(map(str, max_D)))
-        return result
+    def get_max(self):
+        return [driver.max_seconds for driver in self.drivers]
 
     def to_string(self):
-        return"""
-nDrivers=%d;
-max_D=%s;
-        """ % ((self.num_drivers, self.max_seconds))
-
+        return """
+        nDrivers=%d;
+        max_D=%s;
+        """ % ((self.num_drivers, list_str(self.get_max())))
 
 if __name__ == "__main__":
     d = Drivers(10, 10, [1,10])
