@@ -1,4 +1,12 @@
 import random
+from utils import *
+
+
+class One_bus:
+    def __init__(self, capacity, cost_min, cost_km):
+        self.capacity = random.randint(capacity[0], capacity[1])
+        self.cost_min = random.randint(cost_min[0], cost_min[1])
+        self.cost_km = random.randint(cost_km[0], cost_km[1])
 
 
 class Bus:
@@ -6,17 +14,16 @@ class Bus:
         random.seed(seed)
         self.number = number
         self.max = max
-        self.capacity = [random.randint(capacity[0], capacity[1]) for _ in range(0, number)]
-        self.cost_min = self.get_cost(cost_min, number)
-        self.cost_km = self.get_cost(cost_km, number)
+        self.buses = [One_bus(capacity, cost_min, cost_km) for _ in range(0, number)]
 
-    def get_cost(self, cost, number):
-        costs = [random.randint(cost[0], cost[1]) for _ in range(0, number)]
-        result = "[%s]" % " ".join(list(map(str,costs)))
-        return result
+    def get_capacity(self):
+        return [bus.capacity for bus in self.buses]
 
-    def str_capacity(self):
-        return "[%s]" % " ".join(list(map(str, self.capacity)))
+    def get_cost_min(self):
+        return [bus.cost_min for bus in self.buses]
+
+    def get_cost_km(self):
+        return [bus.cost_km for bus in self.buses]
 
     def to_string(self):
         return """nBuses=%d;
@@ -24,7 +31,12 @@ max_busses=%d;
 cap_B=%s;
 euros_min_B=%s;
 euros_km_B=%s;
-""" % ((self.number, self.max, self.str_capacity(), self.cost_min, self.cost_km))
+""" % ((self.number,
+        self.max,
+        list_str(self.get_capacity()),
+        list_str(self.get_cost_min()),
+        list_str(self.get_cost_km())
+        ))
 
 
 if __name__ == "__main__":
