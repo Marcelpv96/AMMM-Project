@@ -9,7 +9,7 @@ class One_bus:
         self.cost_km = random.randint(cost_km[0], cost_km[1])
 
 
-class Bus:
+class Buses:
     def __init__(self, seed, number, max, capacity, cost_min, cost_km):
         random.seed(seed)
         self.number = number
