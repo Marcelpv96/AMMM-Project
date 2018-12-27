@@ -40,7 +40,7 @@ class Restrictions:
 
     @staticmethod
     def restriction_6(candidate, partial_solution):
-        mins = candidate.mins
+        mins = candidate.service.min
         driver = candidate.driver
         for assignament in partial_solution:
             if driver == assignament.driver:
@@ -63,11 +63,18 @@ class Candidate:
         self.bus = bus
         self.driver = driver
 
+    def get_bus_cost(self):
+        cost = 0
+        cost += self.bus.cost_min * self.service.min
+        cost += self.bus.cost_km * self.service.km
+        return cost
+
+    def minutes_drived(self):
+        return self.service.min
+
     def get_cost(self, partial_solution, instance):
         if self.feasible_candidate(partial_solution, instance):
-            cost = 0
-            cost += self.bus.cost_min * self.service.min
-            cost += self.bus.cost_km * self.service.km
+            cost = self.get_bus_cost()
             return cost
         else:
             cost = math.inf
@@ -81,15 +88,34 @@ class Candidate:
                 self.bus == other_candidate.bus and\
                 self.driver == other_candidate.driver
 
+    def __str__(self):
+        return "(*) Service: %s, bus: %s, driver: %s " % ((self.service, self.bus, self.driver))
+
+
+class Solution:
+    def __init__(self, candidates_list, instance):
+        self.solution_parts = candidates_list
+        self.instance = instance
+
+    def get_driver_cost(self):
+        cost = 0
+        for part1 in  self.solution_parts:
+            mins = 0
+            for part2 in self.solution_parts:
+                if part1.driver == part2.driver:
+                    mins += part2.minutes_drived()
+            cost += 0 if 1>2 else -1
+        return cost
+
+    def get_cost(self):
+        return self.get_driver_cost() + sum((solution_part.get_bus_cost() for solution_part in self.solution_parts))
+
 
 class Greedy:
     def __init__(self, inst):
-        self.candidates = self.get_candidates(inst.services.services,
-                                             inst.buses.buses,
-                                             inst.drivers.drivers)
         self.instance = inst
 
-    def selection_function(self, candidates, partial_solution):
+    def selection_function(self, candidates, partial_solution, instance):
         best_cost = math.inf
         best_candidate = None
         for candidate in candidates:
@@ -107,15 +133,29 @@ class Greedy:
                         candidates += [Candidate(service, bus, driver)]
         return candidates
 
-    def feasible_solution(self, partial_solution, candidate):
+    def solution_function(self, partial_solution):
+        services_done = [assignament.service for assignament in partial_solution]
+        for service in self.instance.services.services:
+            if service not in services_done:
+                return False
+        return True
+
+    def objective_function(solution):
         pass
+
+    def solve(self):
+        partial_solution = []
+        candidates = self.get_candidates(inst.services.services,
+                                             inst.buses.buses,
+                                             inst.drivers.drivers)
+        while not self.solution_function(partial_solution):
+            candidate = self.selection_function(candidates, partial_solution, self.instance)
+            partial_solution += [candidate]
+        return partial_solution
 
 
 if __name__ == "__main__":
     inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
     solver = Greedy(inst)
-    candidates = solver.candidates
-
-    partial_solution = [candidates[0]]
-    candidate = candidates[1]
-    print(candidate.get_cost(partial_solution, inst))
+    sol = Solution(solver.solve(), inst)
+    print(sol.get_cost())
