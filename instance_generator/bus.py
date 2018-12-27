@@ -3,18 +3,21 @@ from utils import *
 
 
 class One_bus:
-    def __init__(self, capacity, cost_min, cost_km):
+    def __init__(self, capacity, cost_min, cost_km, id):
         self.capacity = random.randint(capacity[0], capacity[1])
         self.cost_min = random.randint(cost_min[0], cost_min[1])
         self.cost_km = random.randint(cost_km[0], cost_km[1])
+        self.id = id
 
+    def __eq__(self, other_bus):
+        return self.id == other_bus.id
 
 class Buses:
     def __init__(self, seed, number, max, capacity, cost_min, cost_km):
         random.seed(seed)
         self.number = number
         self.max = max
-        self.buses = [One_bus(capacity, cost_min, cost_km) for _ in range(0, number)]
+        self.buses = [One_bus(capacity, cost_min, cost_km, id) for id in range(0, number)]
 
     def get_capacity(self):
         return [bus.capacity for bus in self.buses]
