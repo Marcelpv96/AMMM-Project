@@ -1,10 +1,5 @@
-"""
-∙ Instance example:
+from copy import deepcopy
 
-    - Sumatori capacitat de busos ha de ser mes gran que el sumatori de busos.
-    - No pot haver cap servei que sigo de mes durada que el maxim d'hores que pot fer un driver.
-
-"""
 
 def check_capacity_available_requested(instance):
     available_capacity = sum((bus.capacity for bus in instance.buses.buses))
@@ -18,8 +13,63 @@ def check_duration_available_requested(instance):
     max_requested = max((service.min for service in instance.services.services))
     return available_time*0.75 >= requested_time and  max_available >= max_requested
 
+
 def check_restrictions(instance):
     return check_duration_available_requested(instance) and check_capacity_available_requested(instance)
+
+
+class Restrictions:
+
+    @staticmethod
+    def restriction_1(candidate, partial_solution, overlaps):
+        for assignament in partial_solution:
+            if assignament.driver  == candidate.driver and overlaps[assignament.service.id][candidate.service.id]:
+                return False
+        return True
+
+    @staticmethod
+    def restriction_2(candidate, partial_solution, overlaps):
+        for assignament in partial_solution:
+            if assignament.bus == candidate.bus and overlaps[assignament.service.id][candidate.service.id]:
+                return False
+        return True
+
+    @staticmethod
+    def restriction_3(candidate, partial_solution, max_buses):
+        sol = deepcopy(partial_solution)
+        sol = partial_solution + [candidate]
+        buses = {assignament.bus.id for assignament in sol}
+        return len(buses) <= max_buses
+
+    @staticmethod
+    def restriction_4(candidate, partial_solution):
+        return not candidate in partial_solution
+
+    @staticmethod
+    def restriction_5(candidate, partial_solution):
+        for assignament in partial_solution:
+            if candidate.service == assignament.service:
+                return False
+        return True
+
+    @staticmethod
+    def restriction_6(candidate, partial_solution):
+        mins = candidate.service.min
+        driver = candidate.driver
+        for assignament in partial_solution:
+            if driver == assignament.driver:
+                mins += assignament.service.min
+        return mins <= driver.max_seconds
+
+    @staticmethod
+    def check_all(candidate, partial_solution, overlaps, max_buses):
+        return Restrictions.restriction_1(candidate, partial_solution, overlaps) and\
+                Restrictions.restriction_2(candidate, partial_solution, overlaps) and\
+                Restrictions.restriction_3(candidate, partial_solution, max_buses) and\
+                Restrictions.restriction_4(candidate, partial_solution) and\
+                Restrictions.restriction_5(candidate, partial_solution) and\
+                Restrictions.restriction_6(candidate, partial_solution)
+
 
 
 if __name__ == "__main__":
