@@ -10,6 +10,9 @@ class One_driver:
     def __eq__(self, other_driver):
         return self.id == other_driver.id
 
+    def __str__(self):
+        return "-> [Driver] ID : %d " % self.id
+
 
 class Drivers:
     def __init__(self, seed, num_drivers, max_seconds):

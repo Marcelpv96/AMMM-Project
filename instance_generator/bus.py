@@ -12,6 +12,10 @@ class One_bus:
     def __eq__(self, other_bus):
         return self.id == other_bus.id
 
+    def __str__(self):
+        return "-> [Bus] id: %d " % self.id
+        
+
 class Buses:
     def __init__(self, seed, number, max, capacity, cost_min, cost_km):
         random.seed(seed)

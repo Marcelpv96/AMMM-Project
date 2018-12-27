@@ -13,6 +13,9 @@ class One_service:
     def __eq__(self, other_service):
         return self.id == other_service.id
 
+    def __str__(self):
+        return "-> [Service] id: %d " % self.id
+
 
 class Services:
     def __init__(self, seed, number, time, duration_min,

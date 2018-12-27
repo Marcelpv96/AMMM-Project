@@ -140,8 +140,8 @@ class Greedy:
                 return False
         return True
 
-    def objective_function(solution):
-        pass
+    def objective_function(self, solution):
+        return solution.get_cost()
 
     def solve(self):
         partial_solution = []
@@ -151,11 +151,12 @@ class Greedy:
         while not self.solution_function(partial_solution):
             candidate = self.selection_function(candidates, partial_solution, self.instance)
             partial_solution += [candidate]
-        return partial_solution
+        solution = Solution(partial_solution, self.instance)
+        return solution, self.objective_function(solution)
 
 
 if __name__ == "__main__":
     inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
     solver = Greedy(inst)
-    sol = Solution(solver.solve(), inst)
-    print(sol.get_cost())
+    sol = solver.solve()
+    print(sol)
