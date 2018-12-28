@@ -31,8 +31,13 @@ class Candidate:
         return Restrictions.check_all(self, partial_solution, instance.overlaps, instance.max_buses)
 
     def get_driver_mins(self, partial_solution):
-        mins_work = sum((0 if assignment.driver != self.driver else assignment.service.min for assignment in partial_solution))
-        return mins_work + self.service.min
+        sol = deepcopy(partial_solution)
+        try:
+            sol.remove(self)
+        except ValueError:
+            sol += [self]
+        mins_work = sum((0 if assignment.driver != self.driver else assignment.service.min for assignment in sol))
+        return mins_work
 
     def __eq__(self, other_candidate):
         return self.service == other_candidate.service and\
@@ -49,13 +54,19 @@ class Solution:
         self.instance = instance
 
     def get_driver_cost(self):
+        drivers = []
+        assignments = []
         cost = 0
-        for part1 in  self.assignments:
-            mins = 0
-            for part2 in self.assignments:
-                if part1.driver == part2.driver:
-                    mins += part2.minutes_drived()
-            cost += 0 if 4 >2 else -1
+        for assignment in self.assignments:
+            if assignment.driver not in drivers:
+                drivers += [assignment.driver]
+                assignments += [assignment]
+        for assignment in assignments:
+            mins = assignment.get_driver_mins(self.assignments)
+            if mins < self.instance.BM:
+                cost += mins * self.instance.CBM
+            else:
+                cost += self.instance.BM * self.instance.CBM + (mins - self.instance.BM) * self.instance.CEM
         return cost
 
     def get_cost(self):

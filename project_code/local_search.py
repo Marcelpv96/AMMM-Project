@@ -43,8 +43,11 @@ class Local_search:
             best_sol, obtained_cost = self.get_neighbourhoods(ini_sol)
             if best_sol == ini_sol:
                 break;
-            if obtained_cost <= ini_cost:
+            elif obtained_cost <= ini_cost:
                 break;
+            else:
+                ini_cost = obtained_cost
+                ini_sol = best_sol
         return best_sol
 
 
