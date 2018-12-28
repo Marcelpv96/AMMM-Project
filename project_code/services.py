@@ -1,6 +1,7 @@
 import random
 from utils import *
 
+
 class One_service:
     def __init__(self, time, km, min, passangers, id):
         self.time = random.randint(time[0], time[1])

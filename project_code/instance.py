@@ -12,6 +12,9 @@ class Instance:
         self.services = Services(*service_params)
         self.overlaps = self.services.overlaps
         self.max_buses = self.buses.max
+        self.BM = 10
+        self.CBM = 20
+        self.CEM = 30
 
     def to_string(self):
         return """%s

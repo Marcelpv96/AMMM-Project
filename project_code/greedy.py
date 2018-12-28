@@ -40,9 +40,9 @@ class Greedy:
 
     def solve(self):
         partial_solution = []
-        candidates = self.get_candidates(inst.services.services,
-                                             inst.buses.buses,
-                                             inst.drivers.drivers)
+        candidates = self.get_candidates(self.instance.services.services,
+                                             self.instance.buses.buses,
+                                             self.instance.drivers.drivers)
         while not self.solution_function(partial_solution):
             candidate = self.selection_function(candidates, partial_solution, self.instance)
             partial_solution += [candidate]
