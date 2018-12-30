@@ -25,8 +25,8 @@ class Drivers:
 
     def to_string(self):
         return """
-        nDrivers=%d;
-        max_D=%s;
+nDrivers=%d;
+max_D=%s;
         """ % ((self.number, list_str(self.get_max())))
 
 

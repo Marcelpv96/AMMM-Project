@@ -18,11 +18,16 @@ class Instance:
 
     def to_string(self):
         return """%s
-    %s
-    %s
-        """ % ((self.buses.to_string(),
+%s
+%s
+BM=%d
+CBM=%d
+CEM=%d    """ % ((self.buses.to_string(),
                 self.drivers.to_string(),
-                self.services.to_string()))
+                self.services.to_string(),
+                self.BM,
+                self.CBM,
+                self.CEM))
 
     def write_file(self, file_name):
         str = self.to_string()
