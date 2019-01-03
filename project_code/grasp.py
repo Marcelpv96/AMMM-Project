@@ -32,19 +32,18 @@ class Grasp(Solver):
     def solve(self):
         partial_solution = []
         candidates = self.get_candidates()
-
         while not self.solution_function(partial_solution):
             candidate = self.selection_function(candidates, partial_solution)
-            partial_solution += [candidate]
-            candidates = self.update_candidates(candidates, partial_solution)
+            if candidate:
+                partial_solution += [candidate]
+                candidates = self.update_candidates(candidates, partial_solution)
+            else:
+                break
         solution = Solution(partial_solution, self.instance)
         if solution.get_cost() < math.inf:
             ls = Local_search(solution)
             solution, cost = ls.run()
         return solution, cost
-
-
-
 
 
 if __name__ == "__main__":

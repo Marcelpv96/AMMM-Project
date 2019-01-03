@@ -4,7 +4,6 @@ import math
 from copy import deepcopy
 from solution import Candidate, Solution
 
-
 class Local_search:
 
     def __init__(self, initial_sol):
@@ -48,3 +47,12 @@ class Local_search:
                 ini_cost = obtained_cost
                 ini_sol = best_sol
         return best_sol, best_sol.get_cost()
+
+
+if __name__ == "__main__":
+    inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
+    greedy_solver = Greedy(inst)
+    solution, cost = greedy_solver.solve()
+    solution.get_cost()
+    ls = Local_search(solution)
+    print(ls.run())
