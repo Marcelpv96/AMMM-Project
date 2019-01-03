@@ -13,8 +13,8 @@ class One_bus:
         return self.id == other_bus.id
 
     def __str__(self):
-        return "-> [Bus] id: %d " % self.id
-        
+        return "-> [Bus] id: %d , cost min: %d, cost km: %d" % ((self.id, self.cost_min, self.cost_km))
+
 
 class Buses:
     def __init__(self, seed, number, max, capacity, cost_min, cost_km):

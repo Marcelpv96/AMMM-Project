@@ -1,0 +1,19 @@
+nBuses=4;
+max_busses=20;
+cap_B=[31 41 38 31];
+euros_min_B=[3 4 5 4];
+euros_km_B=[12 19 29 23];
+
+
+nDrivers=4;
+max_D=[6 7 7 16];
+        
+
+nServices=4;
+S_starting_time=[67 183 325 631];
+duration_s_min=[110 185 177 174];
+duration_s_km=[12 33 18 11];
+num_passangers=[21 37 16 31];
+BM=2
+CBM=0.500000
+CEM=0.400000    
