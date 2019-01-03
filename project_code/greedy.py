@@ -28,14 +28,20 @@ class Greedy(Solver):
             if candidate:
                 partial_solution += [candidate]
                 candidates = self.update_candidates(candidates, partial_solution)
+                if not candidates:
+                    break
             else:
                 break
         solution = Solution(partial_solution, self.instance)
-        if solution.get_cost() < math.inf:
-            ls = Local_search(solution)
-            solution, cost = ls.run()
+        if not solution.is_valid():
+            return None, -1
+        if solution.get_cost() == math.inf:
+            return None, -1
+        ls = Local_search(solution)
+        solution, cost = ls.run()
         return solution, cost
 
+        
 if __name__ == "__main__":
     inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
     solver = Greedy(inst)

@@ -11,9 +11,10 @@ class Instance:
         self.drivers = drivers
         self.services = services
         self.overlaps = self.services.overlaps
-        self.bm = bm
-        self.cbm = cbm
-        self.cem = cem
+        self.BM = bm
+        self.CBM = cbm
+        self.CEM = cem
+        self.max_buses = buses.max
 
     def to_string(self):
         return """%s
@@ -24,9 +25,9 @@ CBM=%f;
 CEM=%f;    """ % ((self.buses.to_string(),
                 self.drivers.to_string(),
                 self.services.to_string(),
-                self.bm,
-                self.cbm,
-                self.cem))
+                self.BM,
+                self.CBM,
+                self.CEM))
 
     def write_file(self, file_name):
         str = self.to_string()

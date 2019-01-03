@@ -36,7 +36,8 @@ class Candidate:
             sol.remove(self)
         except ValueError:
             sol += [self]
-        mins_work = sum((0 if assignment.driver != self.driver else assignment.service.min for assignment in sol))
+        minwork = [0 if assignment.driver != self.driver else assignment.service.min for assignment in sol]
+        mins_work = sum(minwork) + self.service.min
         return mins_work
 
     def __eq__(self, other_candidate):
@@ -63,10 +64,12 @@ class Solution:
                 assignments += [assignment]
         for assignment in assignments:
             mins = assignment.get_driver_mins(self.assignments)
-            if mins < self.instance.BM:
+            if mins <= self.instance.BM:
                 cost += mins * self.instance.CBM
             else:
                 cost += self.instance.BM * self.instance.CBM + (mins - self.instance.BM) * self.instance.CEM
+
+
         return cost
 
     def get_cost(self):
@@ -78,6 +81,15 @@ class Solution:
         sorted_assignments = list(zip(assignments, assig_driver_hours))
         sorted_assignments.sort(key=lambda x: x[1] - self.instance.BM)
         return sorted_assignments
+
+    def is_valid(self):
+        services = self.instance.services.services
+        services_assig = [assignment.service for assignment in self.assignments]
+        for service in services:
+            if service not in services_assig:
+                return False
+        return True
+
 
     def __str__(self):
         return "\n".join(map(str, self.assignments))

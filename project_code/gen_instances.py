@@ -52,7 +52,7 @@ def generate_instance(options):
                         cbm=float(options.cbm),
                         cem=float(options.cem))
     print()
-    file_name = 'instance_seed_%s '% options.seed
+    file_name = 'instance_seed_%s'% options.seed
     print("Writing all information int a file named : %s." % file_name)
     instance.write_file(file_name)
 
@@ -60,44 +60,44 @@ def generate_instance(options):
 if __name__ =="__main__":
     parser = optparse.OptionParser(formatter=optparse.TitledHelpFormatter())
 
-    parser.add_option('--seed', '--seed', action='store', default='2',
+    parser.add_option('--seed', '--seed', action='store', default='40',
                       help='Seed.')
 
-    parser.add_option('--bm', '--bm', action='store', default='2',
+    parser.add_option('--bm', '--bm', action='store', default='30',
                   help='Bm value.')
     parser.add_option('--cbm', '--cbm', action='store', default='0.5',
                   help='Cbm value.')
-    parser.add_option('--cem', '--cem', action='store', default='0.4',
+    parser.add_option('--cem', '--cem', action='store', default='0.8',
                 help='Cem value.')
 
 
 
-    parser.add_option('--ss', '--service_start', action='store', default='10, 700',
+    parser.add_option('--ss', '--service_start', action='store', default='0, 720',
                         help='Service start time.')
-    parser.add_option('--skm', '--service_km', action='store', default='10, 40',
+    parser.add_option('--skm', '--service_km', action='store', default='10, 20',
                         help='Service inverval km.')
-    parser.add_option('--sd', '--service_duration', action='store', default='100, 200',
+    parser.add_option('--sd', '--service_duration', action='store', default='10, 60',
                         help='Service inveral duration time.')
     parser.add_option('--sp', '--service_passangers', action='store', default='10, 40',
                         help='Service interval num passangers.')
 
-    parser.add_option('-b', '--num_buses', action='store', default='4',
+    parser.add_option('-b', '--num_buses', action='store', default='50',
                       help='Number of busses.')
-    parser.add_option('-d', '--num_drivers', action='store', default='4',
+    parser.add_option('-d', '--num_drivers', action='store', default='50',
                       help='Number of drivers.')
-    parser.add_option('-s', '--num_services', action='store', default='4',
+    parser.add_option('-s', '--num_services', action='store', default='50',
                         help='Number of services.')
 
-    parser.add_option('--dmax', '--max_duration', action='store', default='5, 20',
+    parser.add_option('--dmax', '--max_duration', action='store', default='240, 240',
                         help='Distance maxim that one driver can drive.')
 
-    parser.add_option('--bmax', '--max_buses', action='store', default='20',
+    parser.add_option('--bmax', '--max_buses', action='store', default='40',
                         help='Number maxim of buses.')
-    parser.add_option('--bmin', '--bus_cost_min', action='store', default='2, 10',
+    parser.add_option('--bmin', '--bus_cost_min', action='store', default='1, 3',
                         help='Interval of cost each bus, by min.')
     parser.add_option('--bkm', '--bus_cost_km', action='store', default='10, 30',
                         help='Interval of cost each bus, by km.')
-    parser.add_option('--bcap', '--bus_capacity', action='store', default='30, 50',
+    parser.add_option('--bcap', '--bus_capacity', action='store', default='20, 50',
                         help='Interval of capacity of each bus.')
     (options, args) = parser.parse_args()
     generate_instance(options)

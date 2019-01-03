@@ -4,6 +4,7 @@ import math
 from copy import deepcopy
 from solution import Candidate, Solution
 
+
 class Local_search:
 
     def __init__(self, initial_sol):

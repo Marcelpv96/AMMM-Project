@@ -9,11 +9,11 @@ algorithms = {'greedy': Greedy , 'grasp': Grasp}
 
 
 def gen_instance():
-    return pickle.load(open('instances/new_instance.pkl', 'rb'))
+    return pickle.load(open('instances/instance_seed_40.pkl', 'rb'))
 
 
 def solve_instance(instance, algorithm):
-    inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
+    inst = instance
     try:
         solver = algorithms[algorithm](inst)
         sol = solver.solve()
