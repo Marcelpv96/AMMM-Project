@@ -10,9 +10,10 @@ from local_search import Local_search
 
 
 class Grasp(Solver):
-    def __init__(self, instance, alpha=0.5, seed=96):
+    def __init__(self, instance, alpha=0.3, seed=96, k=10):
         self.instance = instance
         self.alpha = alpha
+        self.k=k
         random.seed(seed)
 
     def RCL(self, candidates_cost):
@@ -30,25 +31,32 @@ class Grasp(Solver):
         return RCL[random.randint(0, len(RCL)-1)]
 
     def solve(self):
-        partial_solution = []
-        candidates = self.get_candidates()
-        while not self.solution_function(partial_solution):
-            candidate = self.selection_function(candidates, partial_solution)
-            if candidate:
-                partial_solution += [candidate]
-                candidates = self.update_candidates(candidates, partial_solution)
-                if not candidates:
+        best_sol = None
+        best_cost = math.inf
+        for _ in range(0, self.k):
+            partial_solution = []
+            candidates = self.get_candidates()
+            while not self.solution_function(partial_solution):
+                candidate = self.selection_function(candidates, partial_solution)
+                if candidate:
+                    partial_solution += [candidate]
+                    candidates = self.update_candidates(candidates, partial_solution)
+                    if not candidates:
+                        break
+                else:
                     break
+            solution = Solution(partial_solution, self.instance)
+            if not solution.is_valid():
+                return None, -1
+            ls = Local_search(solution)
+            solution, cost = ls.run()
+            if not solution:
+                best_sol = solution
+                best_cost = cost
             else:
-                break
-        solution = Solution(partial_solution, self.instance)
-        if not solution.is_valid():
-            return None, -1
-        if solution.get_cost() == math.inf:
-            return None, -1
-        ls = Local_search(solution)
-        solution, cost = ls.run()
-        return solution, cost
+                best_sol = solution if cost < best_cost else best_sol
+                best_cost = cost if cost < best_cost else best_cost
+        return best_sol, best_cost
 
 
 

@@ -19,8 +19,7 @@ def solve_instance(instance, algorithm):
         solver = algorithms[algorithm](inst)
         sol = solver.solve()
         print("""-> [ALGORITHM]: %s
-->Solution: %s
-->Cost: %d""" % ((algorithm, sol[0], sol[1])))
+->Cost: %d""" % ((algorithm, sol[1])))
     except ValueError:
         print("[ERROR] Use Greedy + Local Search, or Grasp + Local_search")
         sys.exit(1)
@@ -37,5 +36,4 @@ if __name__ == "__main__":
     else:
         print("> Hi! now a greedy algorithm + LS and grasp algorithm + LS will look for a solution of instance : <%s>. "%sys.argv[1])
         instance = gen_instance(sys.argv[1])
-        print(instance.overlaps)
         main(instance)

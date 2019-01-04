@@ -16,7 +16,12 @@ class Local_search:
         alternative_solutions = []
         for assig1 in initial_sol.assignments:
             for assig2 in initial_sol.assignments:
-                if assig1 != assig2:
+                if assig1 != assig2 and initial_sol.intance.services.overlaps[assig1.]:
+
+
+
+
+                    
                     alternative_sol = deepcopy(initial_sol.assignments)
                     alternative_sol.remove(assig1)
                     new_candidate = Candidate(assig1.service, assig2.bus, assig1.driver)
