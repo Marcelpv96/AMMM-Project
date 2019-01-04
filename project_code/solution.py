@@ -68,8 +68,6 @@ class Solution:
                 cost += mins * self.instance.CBM
             else:
                 cost += self.instance.BM * self.instance.CBM + (mins - self.instance.BM) * self.instance.CEM
-
-
         return cost
 
     def get_cost(self):

@@ -12,7 +12,20 @@ class Local_search:
         self.initial_sol = initial_sol
         self.initial_cost = initial_sol.get_cost()
 
-    def get_neighbourhoods(self, initial_sol):
+    def neighbour_bus(self, initial_sol):
+        alternative_solutions = []
+        for assig1 in initial_sol.assignments:
+            for assig2 in initial_sol.assignments:
+                if assig1 != assig2:
+                    alternative_sol = deepcopy(initial_sol.assignments)
+                    alternative_sol.remove(assig1)
+                    new_candidate = Candidate(assig1.service, assig2.bus, assig1.driver)
+                    if new_candidate.feasible_candidate(alternative_sol, initial_sol.instance):
+                        alternative_sol += [new_candidate]
+                        alternative_solutions += [Solution(deepcopy(alternative_sol), initial_sol.instance)]
+        return min(alternative_solutions, key = lambda x: x.get_cost())
+
+    def neighbour_driver(self, initial_sol):
         alternative_solutions = []
         Sorted_assigs = [assig for assig, cost in initial_sol.sort_assignments()]
         Reverse_assigs = deepcopy(Sorted_assigs)
@@ -32,6 +45,12 @@ class Local_search:
                     cost = math.inf
                 alternative_solutions += [(new_solution, cost)]
         return min(alternative_solutions, key = lambda x: x[1])
+
+    def get_neighbourhoods(self, initial_sol):
+        best_buses_combination = self.neighbour_bus(initial_sol)
+        best_neighbour = self.neighbour_driver(best_buses_combination)
+        return best_neighbour
+
 
     def run(self):
         ini_sol = self.initial_sol

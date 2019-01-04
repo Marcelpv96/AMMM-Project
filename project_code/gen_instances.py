@@ -60,7 +60,7 @@ def generate_instance(options):
 if __name__ =="__main__":
     parser = optparse.OptionParser(formatter=optparse.TitledHelpFormatter())
 
-    parser.add_option('--seed', '--seed', action='store', default='40',
+    parser.add_option('--seed', '--seed', action='store', default='50',
                       help='Seed.')
 
     parser.add_option('--bm', '--bm', action='store', default='30',
@@ -76,16 +76,16 @@ if __name__ =="__main__":
                         help='Service start time.')
     parser.add_option('--skm', '--service_km', action='store', default='10, 20',
                         help='Service inverval km.')
-    parser.add_option('--sd', '--service_duration', action='store', default='10, 60',
+    parser.add_option('--sd', '--service_duration', action='store', default='50, 120',
                         help='Service inveral duration time.')
     parser.add_option('--sp', '--service_passangers', action='store', default='10, 40',
                         help='Service interval num passangers.')
 
-    parser.add_option('-b', '--num_buses', action='store', default='50',
+    parser.add_option('-b', '--num_buses', action='store', default='4',
                       help='Number of busses.')
-    parser.add_option('-d', '--num_drivers', action='store', default='50',
+    parser.add_option('-d', '--num_drivers', action='store', default='4',
                       help='Number of drivers.')
-    parser.add_option('-s', '--num_services', action='store', default='50',
+    parser.add_option('-s', '--num_services', action='store', default='4',
                         help='Number of services.')
 
     parser.add_option('--dmax', '--max_duration', action='store', default='240, 240',

@@ -29,11 +29,17 @@ class Services:
                                     id) for id in range(0, number)]
         self.number = number
         self.overlaps = self.get_overlaps()
+        print(self.overlaps)
+
 
     def get_overlaps(self):
-        overlaps = []
+        overlaps = [[0 for _ in range(0, len(self.services))] for _ in range(0, len(self.services))]
         for s1 in range(0, len(self.services)):
-            overlaps += [[1 if self.services[s2].time < self.services[s1].end and s1 != s2 else 0 for s2 in range(0, len(self.services))]]
+            for s2 in range(0, len(self.services)):
+                print((self.services[s2].time ,self.services[s1].time ))
+                if self.services[s1].time <= self.services[s2].time and self.services[s1].end >= self.services[s2].time and s1 != s2:                    
+                    overlaps[s1][s2] = 1
+                    overlaps[s2][s1] = 1
         return overlaps
 
     def get_starting_time(self):

@@ -3,13 +3,14 @@ from grasp import Grasp
 import pickle
 from instance import Instance
 import sys
+import os
 
 
 algorithms = {'greedy': Greedy , 'grasp': Grasp}
 
 
-def gen_instance():
-    return pickle.load(open('instances/instance_seed_40.pkl', 'rb'))
+def gen_instance(seed):
+    return pickle.load(open(os.path.join('instances', 'instance_seed_%s.pkl' % seed), 'rb'))
 
 
 def solve_instance(instance, algorithm):
@@ -25,11 +26,16 @@ def solve_instance(instance, algorithm):
         sys.exit(1)
 
 
-def main():
-    instance = gen_instance()
+def main(instance):
     solve_instance(instance, 'grasp')
     solve_instance(instance,'greedy')
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        print('> USAGE, put the seed of your instance as: python3 main.py SEED_NUMBER')
+    else:
+        print("> Hi! now a greedy algorithm + LS and grasp algorithm + LS will look for a solution of instance : <%s>. "%sys.argv[1])
+        instance = gen_instance(sys.argv[1])
+        print(instance.overlaps)
+        main(instance)
