@@ -73,13 +73,13 @@ if __name__ =="__main__":
 
 
     parser.add_option('--ss', '--service_start', action='store', default='0, 820',
-                        help='Service start time.')
+                        help='Service start time, interval value.')
     parser.add_option('--skm', '--service_km', action='store', default='10, 20',
-                        help='Service inverval km.')
+                        help='Service km duration, interval value.')
     parser.add_option('--sd', '--service_duration', action='store', default='20, 90',
-                        help='Service inveral duration time.')
+                        help='Service duration time, interval value.')
     parser.add_option('--sp', '--service_passangers', action='store', default='10, 40',
-                        help='Service interval num passangers.')
+                        help='Service num passangers, interval value.')
 
     parser.add_option('-b', '--num_buses', action='store', default='18',
                       help='Number of busses.')
@@ -88,16 +88,16 @@ if __name__ =="__main__":
     parser.add_option('-s', '--num_services', action='store', default='28',
                         help='Number of services.')
 
-    parser.add_option('--dmax', '--max_duration', action='store', default='240, 240',
-                        help='Distance maxim that one driver can drive.')
+    parser.add_option('--dmax', '--max_duration', action='store', default='200, 240',
+                        help='Distance maxim that one driver can drive, interval value.')
 
     parser.add_option('--bmax', '--max_buses', action='store', default='6',
                         help='Number maxim of buses.')
     parser.add_option('--bmin', '--bus_cost_min', action='store', default='1, 3',
-                        help='Interval of cost each bus, by min.')
+                        help='Cost each bus, by min, interval value.')
     parser.add_option('--bkm', '--bus_cost_km', action='store', default='10, 30',
-                        help='Interval of cost each bus, by km.')
+                        help='Cost each bus, by km, interval value.')
     parser.add_option('--bcap', '--bus_capacity', action='store', default='20, 50',
-                        help='Interval of capacity of each bus.')
+                        help='Capacity of each bus, interval value.')
     (options, args) = parser.parse_args()
     generate_instance(options)

@@ -7,13 +7,15 @@ from restrictions import Restrictions
 import random
 from solver import Solver
 from local_search import Local_search
+import time
 
 
 class Grasp(Solver):
-    def __init__(self, instance, alpha=0.1, seed=96, k=10):
+    def __init__(self, instance, alpha=0.1, seed=96, k=10, seconds=60):
         self.instance = instance
         self.alpha = alpha
-        self.k=k
+        self.k = k
+        self.seconds = seconds
         random.seed(seed)
 
     def RCL(self, candidates_cost):
@@ -35,7 +37,9 @@ class Grasp(Solver):
         best_sol = None
         best_cost = math.inf
         alpha = self.alpha
-        for iteration in range(0, self.k):
+        iteration = 1
+        start_time = time.time()
+        while time.time() < start_time+self.seconds:
             self.alpha = 0 if iteration == 1 else alpha
             partial_solution = []
             candidates = self.get_candidates()
@@ -52,27 +56,27 @@ class Grasp(Solver):
             if solution.is_valid():
                 ls = Local_search(solution)
                 solution, cost = ls.run()
-                print(cost)
                 if not solution:
                     best_sol = solution
                     best_cost = cost
                 else:
                     best_sol = solution if cost < best_cost else best_sol
                     best_cost = cost if cost < best_cost else best_cost
-        return best_sol, best_cost
+                iteration += 1
+        return best_sol, best_cost, iteration, time.time() - start_time
 
 
 
 if __name__ == "__main__":
     import sys
     if len(sys.argv) < 3:
-        print("-> Usage: python3 grasp.py FILE_NAME")
+        print("-> Usage: python3 grasp.py FILE_NAME SECONDS_MAX")
     else:
         inst = pickle.load(open(sys.argv[1], 'rb'))
-        print("> GRASP ALGORITHM")
+        print("> GRASP ALGORITHM + LOCAL SEARCH")
         alpha = 0.1
         for _ in range(1,10):
-            solver = Grasp(instance=inst, alpha=alpha)
-            sol, cost = solver.solve()
-            print("Result cost: %d, Time: %d , Alpha: %d") % ((cost, ))
-            alpha+=0.1
+            solver = Grasp(instance=inst, alpha=alpha, seconds=int(sys.argv[2]))
+            sol, cost , it, tim = solver.solve()
+            print("Result cost: %f, Time: %f , Alpha: %f, Iterations: %d" % ((cost, tim, alpha, it)))
+            alpha += 0.1

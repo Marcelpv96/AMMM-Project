@@ -6,6 +6,7 @@ from solution import Candidate, Solution
 from restrictions import Restrictions
 from solver import Solver
 from local_search import Local_search
+import time
 
 
 class Greedy(Solver):
@@ -23,6 +24,7 @@ class Greedy(Solver):
     def solve(self):
         partial_solution = []
         candidates = self.get_candidates()
+        start_time = time.time()
         while not self.solution_function(partial_solution):
             candidate = self.selection_function(candidates, partial_solution)
             if candidate:
@@ -34,17 +36,21 @@ class Greedy(Solver):
                 break
         solution = Solution(partial_solution, self.instance)
         if not solution.is_valid():
-            return None, -1
+            return None, -1, -1
         if solution.get_cost() == math.inf:
-            return None, -1
+            return None, -1, -1
         ls = Local_search(solution)
         solution, cost = ls.run()
-        return solution, cost
+        return solution, cost, (time.time() - start_time)
 
-        
+
 if __name__ == "__main__":
-    inst = pickle.load(open('instances/new_instance.pkl', 'rb'))
-    solver = Greedy(inst)
-    sol = solver.solve()
-    print(sol)
-    print(sol[0])
+    import sys
+    if len(sys.argv) < 2:
+        print("-> Usage: python3 greedy.py FILE_NAME ")
+    else:
+        inst = pickle.load(open(sys.argv[1], 'rb'))
+        print("> GREEDY ALGORITHM + LOCAL SEARCH")
+        solver = Greedy(inst)
+        sol, cost, tim = solver.solve()
+        print("Result cost: %f, Time: %f "% ((cost, tim)))
