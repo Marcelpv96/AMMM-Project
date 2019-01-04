@@ -16,6 +16,9 @@ class Candidate:
         cost += self.bus.cost_km * self.service.km
         return cost
 
+    def get_bus_minkm(self):
+        return self.bus.cost_min + self.bus.cost_km
+
     def minutes_drived(self):
         return self.service.min
 
@@ -79,6 +82,14 @@ class Solution:
         sorted_assignments = list(zip(assignments, assig_driver_hours))
         sorted_assignments.sort(key=lambda x: x[1] - self.instance.BM)
         return sorted_assignments
+
+    def sort_by_bus_cost(self):
+        assignments = deepcopy(self.assignments)
+        assig_bus_cost = [assig.get_bus_minkm() for assig in assignments]
+        sorted_assignments = list(zip(assignments, assig_bus_cost))
+        sorted_assignments.sort(key=lambda x:x[1])
+        return sorted_assignments
+
 
     def is_valid(self):
         services = self.instance.services.services
