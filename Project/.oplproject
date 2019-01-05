@@ -7,6 +7,10 @@
 			<ref name="project_model.dat" type="data">
 			</ref>
 		</config>
+		<config category="opl" default="false" name="main">
+			<ref name="main.mod" type="model">
+			</ref>
+		</config>
 	</configs>
 	
 </project>

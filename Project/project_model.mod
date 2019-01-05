@@ -11,10 +11,10 @@ int max_busses=...;
 range B=1..nBuses;
 range D=1..nDrivers;
 range S=1..nServices;			
-
+float temp;
 int cap_B[b in B]=...;
-int euros_min_B[b in B]=...;
-int euros_km_B[b in B]=...;
+float euros_min_B[b in B]=...;
+float euros_km_B[b in B]=...;
 
 int BM=...;
 int max_D[d in D]=...;
@@ -28,27 +28,29 @@ int overlap_time[1..nServices][1..nServices];
 
 float CBM=...;
 float CEM=...;
-int test[1..nDrivers];
 
 dvar boolean SD [s in S, d in D];
 dvar boolean SB [s in S, b in B];
 
 dvar boolean is_used [b in B];
 
-dvar int driver_cost[d in D];
+dvar float driver_cost[d in D];
 
 
 execute{
+	var before = new Date();
+	temp = before.getTime();
+
 	for (var s=1; s<=nServices; s++){
 		for (var s2=1; s2<=nServices; s2++){
-			if(s==s2){
-				overlap_time[s][s2] = 1;					
-			}else if (S_starting_time[s2] <= (S_starting_time[s]+duration_s_min[s]) ){
-				overlap_time[s][s2] = 1;
-			}else if(S_starting_time[s] <= (S_starting_time[s2]+duration_s_min[s2]) ){
-				overlap_time[s2][s] = 1;		
-			}else{
-				overlap_time[S][s2] = 0;									
+			overlap_time[s][s2] = 0;									
+		}
+	}
+	for (var s=1; s<=nServices; s++){
+		for (var s2=1; s2<=nServices; s2++){
+			if(S_starting_time[s] <= S_starting_time[s2] && (S_starting_time[s]+duration_s_min[s]) >= S_starting_time[s2]){
+				overlap_time[s2][s] = 1;	
+				overlap_time[s][s2] = 1;			
 			}
 		}
 	}
@@ -106,20 +108,6 @@ subject to{
 }
 
 execute{
-	for(var d=1;d<=nDrivers;d++){
-		test[d] = 0;
-	}
-	for(var d=1;d<=nDrivers;d++){
-		for (var s=1; s<=nServices; s++){
-			for (var s2=1; s2<=nServices; s2++){
-				test[d] = overlap_time[s][s2]*SD[s][d]*SD[s2][d]+test[d] ;
-			}
-		}
-	}
-	
-	for(var d=1;d<=nDrivers;d++){
-		writeln("-> Driver number : " + d +" i result :"+test[d]);
-	}
 	
 	var total_cost = 0;
 	for(var s=1;s<=nServices;s++){
@@ -132,7 +120,6 @@ execute{
 	}
 	writeln("> total cost : "+total_cost);
 
-	
 }
 
  

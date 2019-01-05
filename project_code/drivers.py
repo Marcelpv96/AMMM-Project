@@ -16,7 +16,8 @@ class One_driver:
 
 class Drivers:
     def __init__(self, seed, num_drivers, max_seconds):
-        random.seed(seed)
+
+        random.seed(random.random())
         self.number = num_drivers
         self.drivers = [One_driver(max_seconds, id) for id in range(0, num_drivers)]
 

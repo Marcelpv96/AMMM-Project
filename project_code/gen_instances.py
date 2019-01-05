@@ -53,6 +53,15 @@ def generate_instance(options):
                         cem=float(options.cem))
     print()
     file_name = 'instance_seed_%s'% options.seed
+    feasible = True
+    print([sum(l) for l in instance.services.overlaps])
+    for services_overlaps in [sum(l) for l in instance.services.overlaps]:
+        if services_overlaps > len(instance.drivers.drivers) and services_overlaps > len(instance.buses.max):
+            feasible = False
+    if feasible:
+        print("It will be a feasible instance.")
+    else:
+        print("It will be a not feasible instance.")
     print("Writing all information int a file named : %s." % file_name)
     instance.write_file(file_name)
 
@@ -63,7 +72,7 @@ if __name__ =="__main__":
     parser.add_option('--seed', '--seed', action='store', default='27',
                       help='Seed.')
 
-    parser.add_option('--bm', '--bm', action='store', default='30',
+    parser.add_option('--bm', '--bm', action='store', default='250',
                   help='Bm value.')
     parser.add_option('--cbm', '--cbm', action='store', default='0.5',
                   help='Cbm value.')
@@ -72,13 +81,13 @@ if __name__ =="__main__":
 
 
 
-    parser.add_option('--ss', '--service_start', action='store', default='0, 820',
+    parser.add_option('--ss', '--service_start', action='store', default='0,720',
                         help='Service start time, interval value.')
-    parser.add_option('--skm', '--service_km', action='store', default='10, 20',
+    parser.add_option('--skm', '--service_km', action='store', default='30, 60',
                         help='Service km duration, interval value.')
-    parser.add_option('--sd', '--service_duration', action='store', default='20, 90',
+    parser.add_option('--sd', '--service_duration', action='store', default='60, 120',
                         help='Service duration time, interval value.')
-    parser.add_option('--sp', '--service_passangers', action='store', default='10, 40',
+    parser.add_option('--sp', '--service_passangers', action='store', default='20, 100',
                         help='Service num passangers, interval value.')
 
     parser.add_option('-b', '--num_buses', action='store', default='18',
@@ -88,16 +97,16 @@ if __name__ =="__main__":
     parser.add_option('-s', '--num_services', action='store', default='28',
                         help='Number of services.')
 
-    parser.add_option('--dmax', '--max_duration', action='store', default='200, 240',
+    parser.add_option('--dmax', '--max_duration', action='store', default='120, 240 ',
                         help='Distance maxim that one driver can drive, interval value.')
 
     parser.add_option('--bmax', '--max_buses', action='store', default='6',
                         help='Number maxim of buses.')
-    parser.add_option('--bmin', '--bus_cost_min', action='store', default='1, 3',
+    parser.add_option('--bmin', '--bus_cost_min', action='store', default='1, 15',
                         help='Cost each bus, by min, interval value.')
-    parser.add_option('--bkm', '--bus_cost_km', action='store', default='10, 30',
+    parser.add_option('--bkm', '--bus_cost_km', action='store', default='1, 30',
                         help='Cost each bus, by km, interval value.')
-    parser.add_option('--bcap', '--bus_capacity', action='store', default='20, 50',
+    parser.add_option('--bcap', '--bus_capacity', action='store', default='20, 140',
                         help='Capacity of each bus, interval value.')
     (options, args) = parser.parse_args()
     generate_instance(options)

@@ -21,7 +21,7 @@ class One_service:
 class Services:
     def __init__(self, seed, number, time, duration_min,
                 duration_km, num_passangers):
-        random.seed(seed)
+        random.seed(random.random())
         self.services = [One_service(time,
                                     duration_km,
                                     duration_min,
@@ -29,6 +29,7 @@ class Services:
                                     id) for id in range(0, number)]
         self.number = number
         self.overlaps = self.get_overlaps()
+
         print(self.overlaps)
 
 
@@ -37,7 +38,7 @@ class Services:
         for s1 in range(0, len(self.services)):
             for s2 in range(0, len(self.services)):
                 print((self.services[s2].time ,self.services[s1].time ))
-                if self.services[s1].time <= self.services[s2].time and self.services[s1].end >= self.services[s2].time and s1 != s2:                    
+                if self.services[s1].time <= self.services[s2].time and self.services[s1].end >= self.services[s2].time and s1 != s2:
                     overlaps[s1][s2] = 1
                     overlaps[s2][s1] = 1
         return overlaps
