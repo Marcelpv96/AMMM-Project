@@ -8,14 +8,15 @@ class Solver:
     def __init__(self, inst):
         self.instance = inst
 
-    def get_candidates(self, service):
+    def get_candidates(self):
+        services = self.instance.services.services
         drivers = self.instance.drivers.drivers
         buses = self.instance.buses.buses
         candidates = []
-        for bus in buses:
-            for driver in drivers:
-                cand = Candidate(service, bus, driver)
-                candidates += [cand]
+        for service in services:
+            for bus in buses:
+                for driver in drivers:
+                    candidates += [Candidate(service, bus, driver)]
         return candidates
 
     def objective_function(self, solution):

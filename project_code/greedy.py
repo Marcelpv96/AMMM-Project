@@ -26,15 +26,15 @@ class Greedy(Solver):
         print("Start get candidates")
         services = self.instance.services.services
         print(len(services))
-        for service in services:
-            print(len(partial_solution))
-            candidates = self.get_candidates(service)
-            candidates = self.update_candidates(candidates, partial_solution)
-            if not candidates:
-                break
+        start_time = time.time()
+        candidates = self.get_candidates()
+        while not self.solution_function(partial_solution):
             candidate = self.selection_function(candidates, partial_solution)
             if candidate:
                 partial_solution += [candidate]
+                candidates = self.update_candidates(candidates, partial_solution)
+                if not candidates:
+                    break
             else:
                 break
         solution = Solution(partial_solution, self.instance)
@@ -42,8 +42,8 @@ class Greedy(Solver):
             return None, -1, -1
         if solution.get_cost() == math.inf:
             return None, -1, -1
-        #ls = Local_search(solution)
-        #solution, cost = ls.run()
+        ls = Local_search(solution)
+        solution, cost = ls.run()
         return solution, cost, (time.time() - start_time)
 
 
