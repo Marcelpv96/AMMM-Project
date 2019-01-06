@@ -62,13 +62,23 @@ class Restrictions:
         return mins <= driver.max_seconds
 
     @staticmethod
+    def restriction_7(candidate, partial_solution):
+        used = 0
+        cap = candidate.bus.capacity
+        for assig in partial_solution:
+            if candidate.bus == assig.bus:
+                used += assig.service.passangers
+        return used + candidate.service.passangers <= cap
+
+    @staticmethod
     def check_all(candidate, partial_solution, overlaps, max_buses):
         return Restrictions.restriction_1(candidate, partial_solution, overlaps) and\
                 Restrictions.restriction_2(candidate, partial_solution, overlaps) and\
                 Restrictions.restriction_3(candidate, partial_solution, max_buses) and\
                 Restrictions.restriction_4(candidate, partial_solution) and\
                 Restrictions.restriction_5(candidate, partial_solution) and\
-                Restrictions.restriction_6(candidate, partial_solution)
+                Restrictions.restriction_6(candidate, partial_solution) and\
+                Restrictions.restriction_7(candidate, partial_solution)
 
 
 

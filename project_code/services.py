@@ -15,7 +15,7 @@ class One_service:
         return self.id == other_service.id
 
     def __str__(self):
-        return "-> [Service] id: %d, start: %d, min: %d, km: %d, passangers %d " % ((self.id, self.time, self.min, self.km, self.passangers))
+        return "-> [Service] id: %d " % ((self.id))
 
 
 class Services:

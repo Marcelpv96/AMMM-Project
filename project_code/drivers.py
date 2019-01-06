@@ -11,7 +11,7 @@ class One_driver:
         return self.id == other_driver.id
 
     def __str__(self):
-        return "-> [Driver] ID : %d , max seconds: %d" % ((self.id, self.max_seconds))
+        return "-> [Driver] ID : %d " % ((self.id))
 
 
 class Drivers:

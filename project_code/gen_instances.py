@@ -81,7 +81,7 @@ if __name__ =="__main__":
 
 
 
-    parser.add_option('--ss', '--service_start', action='store', default='0,720',
+    parser.add_option('--ss', '--service_start', action='store', default='0,1000',
                         help='Service start time, interval value.')
     parser.add_option('--skm', '--service_km', action='store', default='30, 60',
                         help='Service km duration, interval value.')
@@ -106,7 +106,7 @@ if __name__ =="__main__":
                         help='Cost each bus, by min, interval value.')
     parser.add_option('--bkm', '--bus_cost_km', action='store', default='1, 30',
                         help='Cost each bus, by km, interval value.')
-    parser.add_option('--bcap', '--bus_capacity', action='store', default='20, 140',
+    parser.add_option('--bcap', '--bus_capacity', action='store', default='100, 140',
                         help='Capacity of each bus, interval value.')
     (options, args) = parser.parse_args()
     generate_instance(options)

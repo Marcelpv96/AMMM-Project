@@ -1,5 +1,6 @@
 from solution import Candidate, Solution
 from instance import Instance
+from restrictions import Restrictions
 import math
 
 
@@ -7,15 +8,14 @@ class Solver:
     def __init__(self, inst):
         self.instance = inst
 
-    def get_candidates(self):
+    def get_candidates(self, service):
         drivers = self.instance.drivers.drivers
         buses = self.instance.buses.buses
-        services = self.instance.services.services
         candidates = []
-        for service in services:
-            for bus in buses:
-                for driver in drivers:
-                        candidates += [Candidate(service, bus, driver)]
+        for bus in buses:
+            for driver in drivers:
+                cand = Candidate(service, bus, driver)
+                candidates += [cand]
         return candidates
 
     def objective_function(self, solution):
@@ -29,4 +29,5 @@ class Solver:
         return True
 
     def update_candidates(self, candidates, partial_solution):
-        return list(filter(lambda x: x.get_cost(partial_solution, self.instance) < math.inf, candidates))
+        res = list(filter(lambda x: Restrictions.check_all(x, partial_solution, self.instance.services.overlaps, self.instance.buses.max), candidates))
+        return res
