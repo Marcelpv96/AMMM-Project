@@ -81,7 +81,7 @@ if __name__ =="__main__":
 
 
 
-    parser.add_option('--ss', '--service_start', action='store', default='0,1000',
+    parser.add_option('--ss', '--service_start', action='store', default='0,5000',
                         help='Service start time, interval value.')
     parser.add_option('--skm', '--service_km', action='store', default='30, 60',
                         help='Service km duration, interval value.')

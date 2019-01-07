@@ -23,9 +23,7 @@ class Greedy(Solver):
 
     def solve(self):
         partial_solution = []
-        print("Start get candidates")
         services = self.instance.services.services
-        print(len(services))
         start_time = time.time()
         candidates = self.get_candidates()
         while not self.solution_function(partial_solution):
