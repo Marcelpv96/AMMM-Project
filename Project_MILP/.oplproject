@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?><project>
+	<version>1.0</version>
+	<configs>
+		<config category="opl" default="true" name="Configuration1">
+			<ref name="project_model.mod" type="model">
+			</ref>
+			<ref name="project_model2.dat" type="data">
+			</ref>
+		</config>
+		<config category="opl" default="false" name="main">
+			<ref name="main.mod" type="model">
+			</ref>
+		</config>
+	</configs>
+	
+</project>
