@@ -69,13 +69,27 @@ class Grasp(Solver):
 
 if __name__ == "__main__":
     import sys
+    import glob
     if len(sys.argv) < 3:
-        print("-> Usage: python3 grasp.py FILE_NAME SECONDS_MAX")
+        if len(sys.argv) <2:
+            print("-> Usage: python3 grasp.py FILE_NAME SECONDS_MAX or python3 grasp.py SECONDS_MAX")
+        else:
+            files = glob.glob("instances/*.pkl")
+            files.sort(key= lambda x: int(x.replace('.pkl','').split('_')[-1]))
+            for file in files:
+                print("> GRASP ALGORITHM + LOCAL SEARCH, file: %s" % file.replace(".pkl",""))
+                alpha = 0.1
+                for _ in range(1,10):
+                    inst = pickle.load(open(file, 'rb'))
+                    solver = Grasp(instance=inst, alpha=alpha, seconds=int(sys.argv[1]))
+                    sol, cost , it, tim = solver.solve()
+                    print("Result cost: %f, Time: %f , Alpha: %f, Iterations: %d" % ((cost, tim, alpha, it)))
+                    alpha += 0.1
     else:
         inst = pickle.load(open(sys.argv[1], 'rb'))
         print("> GRASP ALGORITHM + LOCAL SEARCH")
         alpha = 0.1
-        for _ in range(1,6):
+        for _ in range(1,10):
             solver = Grasp(instance=inst, alpha=alpha, seconds=int(sys.argv[2]))
             sol, cost , it, tim = solver.solve()
             print("Result cost: %f, Time: %f , Alpha: %f, Iterations: %d" % ((cost, tim, alpha, it)))
